@@ -2,6 +2,42 @@
 
 A collection of agent skills that extend capabilities across planning, development, and tooling.
 
+## Using skills globally (local machine only)
+
+To make all skills available in every Claude Code session — without publishing or pushing anything — symlink each skill's `SKILL.md` into Claude's global commands directory.
+
+**One-time setup:** run this from the root of this repo:
+
+```bash
+mkdir -p ~/.claude/commands
+
+for dir in "$PWD"/*/; do
+  name=$(basename "$dir")
+  if [ -f "$dir/SKILL.md" ]; then
+    ln -sf "$dir/SKILL.md" ~/.claude/commands/"$name".md
+    echo "linked: $name"
+  fi
+done
+```
+
+After this, every skill is available as a `/skill-name` slash command in any repo you open with Claude Code.
+
+**To add a new skill later**, run once after creating the folder:
+
+```bash
+ln -sf "$PWD/<skill-name>/SKILL.md" ~/.claude/commands/<skill-name>.md
+```
+
+**To edit a skill**, just edit its `SKILL.md` directly in this repo — the symlink means the change takes effect immediately, no re-linking needed.
+
+**To remove a skill** from global commands:
+
+```bash
+rm ~/.claude/commands/<skill-name>.md
+```
+
+---
+
 ## Planning & Design
 
 These skills help you think through problems before writing code.
