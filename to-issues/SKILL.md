@@ -29,6 +29,16 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 - Prefer many thin slices over few thick ones
 </vertical-slice-rules>
 
+<slices-vs-prs>
+**Slices ≠ PRs**: Slices are units of planning and execution, not necessarily PR boundaries. Multiple small related slices can be grouped into a single PR (perhaps as separate commits). Consider:
+
+- **Separate PRs** when: slices are large, need separate review, or have different reviewers (e.g. FE vs BE)
+- **Grouped in one PR** when: slices are small, tightly coupled, or would be awkward to review separately
+- **Commits within PR**: Each slice can be a separate commit for clear history
+
+Be smart about PR boundaries - optimize for review experience and deployment atomicity, not just slice count.
+</slices-vs-prs>
+
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each slice, show:
@@ -44,6 +54,7 @@ Ask the user:
 - Are the dependency relationships correct?
 - Should any slices be merged or split further?
 - Are the correct slices marked as HITL and AFK?
+- Should any slices be grouped into the same PR, or does each need a separate PR?
 
 Iterate until the user approves the breakdown.
 
@@ -64,6 +75,7 @@ _Source: [.plans/prd/<feature-name>.md](../prd/<feature-name>.md)_ (omit if no P
 
 **Type**: AFK | HITL
 **Blocked by**: <Slice Title> | None — can start immediately
+**PR grouping**: Can be combined with <Slice Title> in one PR | Separate PR recommended (omit this line if not relevant)
 
 ### What to build
 
@@ -96,6 +108,8 @@ Each slice becomes one Jira-ready ticket. Scale the format to the complexity of 
 
 ## <Slice Title>
 
+**Note**: When a slice is specific to one system in a multi-repo setup, prefix the title with the system identifier (e.g. "FE | Add cart validation", "BE | Add cart endpoint"). Do not use brackets like "[FE]".
+
 <1-2 sentences: what this delivers and why it matters now.>
 
 ### Acceptance criteria
@@ -103,6 +117,10 @@ Each slice becomes one Jira-ready ticket. Scale the format to the complexity of 
 - Criterion written as an observable outcome
 - Criterion written as an observable outcome
 - ...
+
+### Implementation notes
+
+**PR grouping**: This can be combined with <other ticket title> in a single PR as separate commits. (omit this section entirely if not relevant)
 
 ### Out of scope
 
