@@ -1,11 +1,11 @@
 ---
 name: qa
-description: Interactive QA session where user reports bugs or issues conversationally, and the agent files GitHub issues. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
+description: Interactive QA session where user reports bugs or issues conversationally, and the agent writes them to local markdown files. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
 ---
 
 # QA Session
 
-Run an interactive QA session. The user describes problems they're encountering. You clarify, explore the codebase for context, and file GitHub issues that are durable, user-focused, and use the project's domain language.
+Run an interactive QA session. The user describes problems they're encountering. You clarify, explore the codebase for context, and write durable, user-focused bug reports to `.plans/qa/`.
 
 ## For each issue the user raises
 
@@ -27,34 +27,32 @@ While talking to the user, kick off an Agent (subagent_type=Explore) in the back
 - Understand what the feature is supposed to do
 - Identify the user-facing behavior boundary
 
-This context helps you write a better issue — but the issue itself should NOT reference specific files, line numbers, or internal implementation details.
+This context helps you write a better report — but the report itself should NOT reference specific files, line numbers, or internal implementation details.
 
-### 3. Assess scope: single issue or breakdown?
+### 3. Assess scope: single report or breakdown?
 
-Before filing, decide whether this is a **single issue** or needs to be **broken down** into multiple issues.
+Before writing, decide whether this is a **single report** or needs to be **broken down** into multiple sections.
 
 Break down when:
 
-- The fix spans multiple independent areas (e.g. "the form validation is wrong AND the success message is missing AND the redirect is broken")
+- The fix spans multiple independent areas
 - There are clearly separable concerns that different people could work on in parallel
-- The user describes something that has multiple distinct failure modes or symptoms
+- The user describes something with multiple distinct failure modes or symptoms
 
-Keep as a single issue when:
+Keep as a single report when:
 
 - It's one behavior that's wrong in one place
 - The symptoms are all caused by the same root behavior
 
-### 4. File the GitHub issue(s)
+### 4. Write the report(s)
 
-Create issues with `gh issue create`. Do NOT ask the user to review first — just file and share URLs.
+Derive a short kebab-case name from the bug description (e.g. `checkout-total-wrong`). Write to `.plans/qa/<bug-name>.md`, creating `.plans/qa/` if needed. Do NOT ask the user to review first — just write and share the file path.
 
-Issues must be **durable** — they should still make sense after major refactors. Write from the user's perspective.
+Reports must be **durable** — they should still make sense after major refactors. Write from the user's perspective.
 
-#### For a single issue
+#### For a single report
 
-Use this template:
-
-```
+```markdown
 ## What happened
 
 [Describe the actual behavior the user experienced, in plain language]
@@ -71,60 +69,45 @@ Use this template:
 
 ## Additional context
 
-[Any extra observations from the user or from codebase exploration that help frame the issue — e.g. "this only happens when using the Docker layer, not the filesystem layer" — use domain language but don't cite files]
+[Any extra observations that help frame the issue — use domain language but don't cite files]
 ```
 
-#### For a breakdown (multiple issues)
+#### For a breakdown (multiple issues in one file)
 
-Create issues in dependency order (blockers first) so you can reference real issue numbers.
+Use `##` sections per issue in the same file. Write sections in dependency order (blockers first).
 
-Use this template for each sub-issue:
+```markdown
+## <Issue Title>
 
-```
-## Parent issue
+**Blocked by**: <Other Issue Title> | None — can start immediately
 
-#<parent-issue-number> (if you created a tracking issue) or "Reported during QA session"
+### What's wrong
 
-## What's wrong
+[Describe this specific behavior problem — just this slice]
 
-[Describe this specific behavior problem — just this slice, not the whole report]
-
-## What I expected
+### What I expected
 
 [Expected behavior for this specific slice]
 
-## Steps to reproduce
+### Steps to reproduce
 
 1. [Steps specific to THIS issue]
 
-## Blocked by
-
-- #<issue-number> (if this issue can't be fixed until another is resolved)
-
-Or "None — can start immediately" if no blockers.
-
-## Additional context
+### Additional context
 
 [Any extra observations relevant to this slice]
 ```
 
-When creating a breakdown:
-
-- **Prefer many thin issues over few thick ones** — each should be independently fixable and verifiable
-- **Mark blocking relationships honestly** — if issue B genuinely can't be tested until issue A is fixed, say so. If they're independent, mark both as "None — can start immediately"
-- **Create issues in dependency order** so you can reference real issue numbers in "Blocked by"
-- **Maximize parallelism** — the goal is that multiple people (or agents) can grab different issues simultaneously
-
-#### Rules for all issue bodies
+#### Rules for all reports
 
 - **No file paths or line numbers** — these go stale
 - **Use the project's domain language** (check UBIQUITOUS_LANGUAGE.md if it exists)
-- **Describe behaviors, not code** — "the sync service fails to apply the patch" not "applyPatch() throws on line 42"
+- **Describe behaviors, not code** — "the sync service fails to apply the patch" not "applyPatch() throws"
 - **Reproduction steps are mandatory** — if you can't determine them, ask the user
-- **Keep it concise** — a developer should be able to read the issue in 30 seconds
+- **Keep it concise** — a developer should be able to read the report in 30 seconds
 
-After filing, print all issue URLs (with blocking relationships summarized) and ask: "Next issue, or are we done?"
+After writing, share the file path and ask: "Next issue, or are we done?"
 
 ### 5. Continue the session
 
-Keep going until the user says they're done. Each issue is independent — don't batch them.
+Keep going until the user says they're done. Each report is independent — don't batch them.

@@ -1,17 +1,17 @@
 ---
 name: to-issues
-description: Break a plan, spec, or PRD into independently-grabbable GitHub issues using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
+description: Break a plan, spec, or PRD into independently-grabbable task slices using tracer-bullet vertical slices, saved as a local markdown file. Use when user wants to convert a plan into tasks, create implementation tickets, or break down work into tasks.
 ---
 
 # To Issues
 
-Break a plan into independently-grabbable GitHub issues using vertical slices (tracer bullets).
+Break a plan into independently-grabbable task slices using vertical slices (tracer bullets), saved to `.plans/tasks/`.
 
 ## Process
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes a GitHub issue number or URL as an argument, fetch it with `gh issue view <number>` (with comments).
+Work from whatever is already in the conversation context. If the user passes a path to a PRD file, read it with the Read tool. If the user passes a GitHub issue number or URL as an argument, fetch it with `gh issue view <number>` (with comments).
 
 ### 2. Explore the codebase (optional)
 
@@ -19,7 +19,7 @@ If you have not already explored the codebase, do so to understand the current s
 
 ### 3. Draft vertical slices
 
-Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
+Break the plan into **tracer bullet** slices. Each slice is a thin vertical cut through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
 Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
 
@@ -35,7 +35,7 @@ Present the proposed breakdown as a numbered list. For each slice, show:
 
 - **Title**: short descriptive name
 - **Type**: HITL / AFK
-- **Blocked by**: which other slices (if any) must complete first
+- **Blocked by**: which other slice titles (if any) must complete first
 - **User stories covered**: which user stories this addresses (if the source material has them)
 
 Ask the user:
@@ -47,33 +47,71 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 5. Create the GitHub issues
+### 5. Write the tasks file
 
-For each approved slice, create a GitHub issue using `gh issue create`. Use the issue body template below.
+Derive the feature name from the source PRD filename or conversation (e.g. `cart-checkout-flow`). Write all approved slices to `.plans/tasks/<feature-name>.md`. Create the `.plans/tasks/` directory if it doesn't exist.
 
-Create issues in dependency order (blockers first) so you can reference real issue numbers in the "Blocked by" field.
+Write slices in dependency order (blockers first). Use the template below for each slice as a `##` section.
 
-<issue-template>
-## Parent
+<tasks-template>
+# <Feature Name> Tasks
 
-#<parent-issue-number> (if the source was a GitHub issue, otherwise omit this section)
+_Source: [.plans/prd/<feature-name>.md](../prd/<feature-name>.md)_ (omit if no PRD file exists)
 
-## What to build
+---
+
+## <Slice Title>
+
+**Type**: AFK | HITL
+**Blocked by**: <Slice Title> | None — can start immediately
+
+### What to build
 
 A concise description of this vertical slice. Describe the end-to-end behavior, not layer-by-layer implementation.
 
-## Acceptance criteria
+### Acceptance criteria
 
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] Criterion 3
 
-## Blocked by
+---
 
-- Blocked by #<issue-number> (if any)
+</tasks-template>
 
-Or "None - can start immediately" if no blockers.
+### 6. Write the Jira tickets file (optional)
 
-</issue-template>
+Ask the user: "Should I also generate `.plans/jira/<feature-name>.md` with Jira-ready tickets?" Only proceed if they say yes.
 
-Do NOT close or modify any parent issue.
+Write all approved slices to `.plans/jira/<feature-name>.md`. Create the `.plans/jira/` directory if it doesn't exist.
+
+Each slice becomes one Jira-ready ticket. Scale the format to the complexity of the slice — do not add sections that add no value. Simple slices need only a title, context sentence, and AC list. Complex slices may include Out of scope and Open questions.
+
+**Acceptance criteria** must be written as observable outcomes (what a tester can verify), not implementation steps. Include enough detail for someone unfamiliar with the codebase to test the ticket. Group criteria by area (e.g. Backend / Frontend) only when the slice spans multiple systems.
+
+<jira-template>
+# <Feature Name> — Jira Tickets
+
+---
+
+## <Slice Title>
+
+<1-2 sentences: what this delivers and why it matters now.>
+
+### Acceptance criteria
+
+- Criterion written as an observable outcome
+- Criterion written as an observable outcome
+- ...
+
+### Out of scope
+
+- ... (omit this section entirely if nothing is explicitly excluded)
+
+### Open questions
+
+- ... (omit this section entirely if there are no unresolved decisions)
+
+---
+
+</jira-template>

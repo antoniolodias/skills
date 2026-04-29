@@ -46,6 +46,7 @@ RIGHT (vertical):
 
 Before writing any code:
 
+- [ ] Check for a `TESTING-PRINCIPLES.md` file anywhere in the repo (search recursively). If found, read it and apply its conventions on how to write tests.
 - [ ] Confirm with user what interface changes are needed
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
@@ -96,6 +97,15 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 
 **Never refactor while RED.** Get to GREEN first.
 
+### 5. Commit
+
+After each complete RED → GREEN → REFACTOR cycle, commit. Each commit should represent one working, tested behavior — giving you a history you can bisect or roll back to if the next cycle goes off track.
+
+Commit message rules:
+- One line only, no body
+- Conventional commits format: `type: subject` (e.g. `feat: add line item quantity validation`)
+- No co-authored information
+
 ## Checklist Per Cycle
 
 ```
@@ -104,4 +114,5 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 [ ] Test would survive internal refactor
 [ ] Code is minimal for this test
 [ ] No speculative features added
+[ ] Committed with a single-line conventional commit message
 ```
