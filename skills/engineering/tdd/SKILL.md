@@ -9,6 +9,10 @@ description: Test-driven development with red-green-refactor loop. Use when user
 
 **Core principle**: Tests should verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't.
 
+**Simplicity first**: Always prefer the simplest solution that works. Less code is better code — it's easier to read, easier to maintain, and easier to delete when requirements change. If you're reaching for an abstraction, a design pattern, or a clever technique, ask: "does this make the code simpler or just more sophisticated?" Sophistication is not a goal. Readability and directness are.
+
+**Commit after every cycle — no exceptions**: Each RED → GREEN → REFACTOR cycle ends with a commit. This is not optional. Never let multiple cycles accumulate without committing. Small, frequent commits let you bisect history, roll back safely, and show clear progress.
+
 **Good tests** are integration-style: they exercise real code paths through public APIs. They describe _what_ the system does, not _how_ it does it. A good test reads like a specification - "user can checkout with valid cart" tells you exactly what capability exists. These tests survive refactors because they don't care about internal structure.
 
 **Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify through external means (like querying a database directly instead of using the interface). The warning sign: your test breaks when you refactor, but behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not behavior.
@@ -49,6 +53,7 @@ When exploring the codebase, use the project's domain glossary so that test name
 Before writing any code:
 
 - [ ] Check for a `TESTING-PRINCIPLES.md` file anywhere in the repo (search recursively). If found, read it and apply its conventions on how to write tests.
+- [ ] **Search the codebase for similar logic before writing new code.** Ask: does this behavior already exist somewhere? Could this be centralized rather than duplicated per file? Look for utility functions, shared hooks, helpers, or base classes that already handle part of what you're about to write. If something similar exists in 2+ places, that's a signal to centralize — not to add a third copy.
 - [ ] Confirm with user what interface changes are needed
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
@@ -91,7 +96,8 @@ Rules:
 
 After all tests pass, look for [refactor candidates](refactoring.md):
 
-- [ ] Extract duplication
+- [ ] Extract duplication — both within the new code and between the new code and existing files
+- [ ] Ask: "does this logic already live somewhere else in the codebase?" If yes, centralize it
 - [ ] Deepen modules (move complexity behind simple interfaces)
 - [ ] Apply SOLID principles where natural
 - [ ] Consider what new code reveals about existing code
@@ -99,14 +105,16 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 
 **Never refactor while RED.** Get to GREEN first.
 
-### 5. Commit
+### 5. Commit — MANDATORY
 
-After each complete RED → GREEN → REFACTOR cycle, commit. Each commit should represent one working, tested behavior — giving you a history you can bisect or roll back to if the next cycle goes off track.
+**You must commit after every RED → GREEN → REFACTOR cycle.** Do not move on to the next behavior without committing first. If tests pass and there is no commit, something is wrong.
 
 Commit message rules:
 - One line only, no body
 - Conventional commits format: `type: subject` (e.g. `feat: add line item quantity validation`)
 - No co-authored information
+
+If you find yourself wanting to "just do one more cycle before committing", stop — that is the habit that produces tangled diffs and hard-to-bisect history. Commit now.
 
 ## Checklist Per Cycle
 
@@ -114,7 +122,8 @@ Commit message rules:
 [ ] Test describes behavior, not implementation
 [ ] Test uses public interface only
 [ ] Test would survive internal refactor
-[ ] Code is minimal for this test
+[ ] Code is the simplest thing that passes the test — not the cleverest
+[ ] No abstractions added that aren't needed right now
 [ ] No speculative features added
-[ ] Committed with a single-line conventional commit message
+[ ] COMMITTED — single-line conventional commit message (mandatory before next cycle)
 ```
