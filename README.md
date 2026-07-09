@@ -131,7 +131,7 @@ For debugging, I've also built a **[`/diagnosing-bugs`](./skills/engineering/dia
 
 This is built in to every layer of these skills:
 
-- [`/to-prd`](./skills/engineering/to-prd/SKILL.md) quizzes you about which modules you're touching before creating a PRD
+- [`/to-spec`](./skills/engineering/to-spec/SKILL.md) quizzes you about which modules you're touching before creating a spec
 
 And crucially, [`/improve-codebase-architecture`](./skills/engineering/improve-codebase-architecture/SKILL.md) helps you rescue a codebase that has become a ball of mud. I recommend running it on your codebase once every few days.
 
@@ -154,9 +154,12 @@ Skills I use daily for code work.
 - **[triage](./skills/engineering/triage/SKILL.md)** — Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)** — Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
-- **[to-issues](./skills/engineering/to-issues/SKILL.md)** — Break any plan, spec, or PRD into independently-grabbable issues using vertical slices.
-- **[to-prd](./skills/engineering/to-prd/SKILL.md)** — Turn the current conversation into a PRD and publish it to the issue tracker. No interview — just synthesizes what you've already discussed.
+- **[to-tickets](./skills/engineering/to-tickets/SKILL.md)** — Break any plan, spec, or PRD into independently-grabbable task slices saved to `.plans/tasks/`.
+- **[to-spec](./skills/engineering/to-spec/SKILL.md)** — Turn the current conversation into a spec (PRD) saved to `.plans/`. No interview — just synthesizes what you've already discussed.
 - **[prototype](./skills/engineering/prototype/SKILL.md)** — Build a throwaway prototype to flesh out a design — either a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+- **[code-review](./skills/engineering/code-review/SKILL.md)** — Perform a focused code review on the current changes or a specific file.
+- **[research](./skills/engineering/research/SKILL.md)** — Explore and research a topic or question systematically.
+- **[wayfinder](./skills/engineering/wayfinder/SKILL.md)** — Navigate decision-making for complex features with collaborative planning.
 
 **Model-invoked**
 

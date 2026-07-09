@@ -11,9 +11,12 @@ Reachable only when you type them (`disable-model-invocation: true`).
 - **[triage](./triage/SKILL.md)** — Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)** — Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 - **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo.
-- **[to-issues](./to-issues/SKILL.md)** — Break any plan, spec, or PRD into independently-grabbable issues using vertical slices.
-- **[to-prd](./to-prd/SKILL.md)** — Turn the current conversation into a PRD and publish it to the issue tracker.
+- **[to-tickets](./to-tickets/SKILL.md)** — Break any plan, spec, or PRD into independently-grabbable task slices saved to `.plans/tasks/`.
+- **[to-spec](./to-spec/SKILL.md)** — Turn the current conversation into a spec (PRD) saved to `.plans/`.
 - **[prototype](./prototype/SKILL.md)** — Build a throwaway prototype — a runnable terminal app for state/logic questions, or several toggleable UI variations.
+- **[code-review](./code-review/SKILL.md)** — Perform a focused code review on the current changes or a specific file.
+- **[research](./research/SKILL.md)** — Explore and research a topic or question systematically.
+- **[wayfinder](./wayfinder/SKILL.md)** — Navigate decision-making for complex features with collaborative planning.
 
 ## Model-invoked
 
