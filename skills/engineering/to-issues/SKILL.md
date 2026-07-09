@@ -1,30 +1,28 @@
 ---
 name: to-issues
-description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.
+description: Break a plan, spec, or PRD into task slices using tracer-bullet vertical slices, saved as a local Markdown file in .plans/tasks/
 disable-model-invocation: true
 ---
 
 # To Issues
 
-Break a plan into independently-grabbable issues using vertical slices (tracer bullets).
-
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Break a plan into task slices using vertical slices (tracer bullets). Output is saved as a Markdown file in `.plans/tasks/`.
 
 ## Process
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
+Work from whatever is already in the conversation context. If the user passes a plan file path as an argument, read the file to understand what needs to be broken down.
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+If you have not already explored the codebase, do so to understand the current state of the code. Task titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
 
 Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
 ### 3. Draft vertical slices
 
-Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
+Break the plan into **tracer bullet** task slices. Each slice is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
 <vertical-slice-rules>
 
@@ -50,35 +48,70 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 5. Publish the issues to the issue tracker
+### 5. Write the task breakdown file
 
-For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. These issues are considered ready for AFK agents, so publish them with the correct triage label unless instructed otherwise.
+Create `.plans/tasks/` if it doesn't exist. Write the breakdown as a Markdown file named after the feature (e.g., `.plans/tasks/store-selection-ui-breakdown.md`). Use the template below.
 
-Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
+<task-breakdown-template>
+# <Feature Name> - Task Breakdown
 
-<issue-template>
-## Parent
+Source PRD: <reference to source plan/PRD file>
 
-A reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
+## Overview
 
-## What to build
+Brief description of what this feature delivers and how many slices it's broken into.
+
+---
+
+## Slice 1: <Title>
+
+**Status**: Ready to start / Blocked
+**Blocked by**: None - can start immediately / Slice N (needs X)
+
+**User stories covered**:
+- US#N: <story summary>
+- US#M: <story summary>
+
+### What to build
 
 A concise description of this vertical slice. Describe the end-to-end behavior, not layer-by-layer implementation.
 
 Avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
 
-## Acceptance criteria
+### Acceptance criteria
 
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] Criterion 3
 
-## Blocked by
+---
 
-- A reference to the blocking ticket (if any)
+## Slice 2: <Title>
 
-Or "None - can start immediately" if no blockers.
+**Status**: Blocked
+**Blocked by**: Slice 1 (needs X)
 
-</issue-template>
+**User stories covered**:
+- US#N: <story summary>
 
-Do NOT close or modify any parent issue.
+### What to build
+
+...
+
+### Acceptance criteria
+
+- [ ] ...
+
+<!-- Repeat for each slice -->
+
+---
+
+## Implementation Order
+
+1. **Slice 1**: <brief summary>
+2. **Slice 2**: <brief summary>
+3. **Slice N**: <brief summary>
+
+Each slice is independently testable and builds on the previous one. The complete feature ships when Slice N is done.
+
+</task-breakdown-template>
