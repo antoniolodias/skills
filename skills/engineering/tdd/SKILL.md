@@ -11,7 +11,7 @@ description: Test-driven development. Use when the user wants to build features 
 
 **Simplicity first**: Always prefer the simplest solution that works. Less code is better code — it's easier to read, easier to maintain, and easier to delete when requirements change. If you're reaching for an abstraction, a design pattern, or a clever technique, ask: "does this make the code simpler or just more sophisticated?" Sophistication is not a goal. Readability and directness are.
 
-**Commit after every cycle — no exceptions**: Each RED → GREEN → REFACTOR cycle ends with a commit. This is not optional. Never let multiple cycles accumulate without committing. Small, frequent commits let you bisect history, roll back safely, and show clear progress.
+**Commit after every cycle — no exceptions**: Each RED → GREEN → REFACTOR cycle ends with a commit. This is not optional. Never let multiple cycles accumulate without committing. Small, frequent commits let you bisect history, roll back safely, and show clear progress. Use simple one-line commit messages with no co-authored information.
 
 **Good tests** are integration-style: they exercise real code paths through public APIs. They describe _what_ the system does, not _how_ it does it. A good test reads like a specification - "user can checkout with valid cart" tells you exactly what capability exists. These tests survive refactors because they don't care about internal structure.
 
@@ -108,10 +108,12 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 
 **You must commit after every RED → GREEN → REFACTOR cycle.** Do not move on to the next behavior without committing first. If tests pass and there is no commit, something is wrong.
 
-Commit message rules:
-- One line only, no body
-- Conventional commits format: `type: subject` (e.g. `feat: add line item quantity validation`)
-- No co-authored information
+**CRITICAL commit requirements:**
+- **Commit immediately** after each cycle — never batch multiple cycles
+- **One-line message only** — no body, no extra paragraphs
+- **Format**: `type: subject` (e.g. `feat: add line item quantity validation`)
+- **NO co-authored information** — no "Co-Authored-By" lines
+- **Keep it simple** — describe what changed, nothing more
 
 If you find yourself wanting to "just do one more cycle before committing", stop — that is the habit that produces tangled diffs and hard-to-bisect history. Commit now.
 
@@ -124,5 +126,5 @@ If you find yourself wanting to "just do one more cycle before committing", stop
 [ ] Code is the simplest thing that passes the test — not the cleverest
 [ ] No abstractions added that aren't needed right now
 [ ] No speculative features added
-[ ] COMMITTED — single-line conventional commit message (mandatory before next cycle)
+[ ] COMMITTED — one-line message, no co-authored info (mandatory before next cycle)
 ```
