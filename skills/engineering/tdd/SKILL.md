@@ -9,8 +9,6 @@ TDD is the red → green loop. This skill is the reference that makes that loop 
 
 When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
-**Simplicity first**: Always prefer the simplest solution that works. Less code is better code — it's easier to read, easier to maintain, and easier to delete when requirements change. If you're reaching for an abstraction, a design pattern, or a clever technique, ask: "does this make the code simpler or just more sophisticated?" Sophistication is not a goal. Readability and directness are.
-
 ## What a good test is
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: "user can checkout with valid cart" tells you exactly what capability exists, and it survives refactors because it doesn't care about internal structure.
@@ -25,12 +23,9 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 Ask: "What's the public interface, and which seams should we test?"
 
+Before writing any test, check for a `TESTING-PRINCIPLES.md` file anywhere in the repo (search recursively). If found, read it and apply its conventions on how to write tests.
+
 When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
-
-Before writing any test:
-
-- Check for a `TESTING-PRINCIPLES.md` file anywhere in the repo (search recursively). If found, read it and apply its conventions on how to write tests.
-- **Search the codebase for similar logic before writing new code.** Ask: does this behavior already exist somewhere? Could this be centralized rather than duplicated per file? Look for utility functions, shared hooks, helpers, or base classes that already handle part of what you're about to write. If something similar exists in 2+ places, that's a signal to centralize — not to add a third copy.
 
 ## Anti-patterns
 

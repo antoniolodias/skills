@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: "[skills repo] A relentless interview to sharpen a plan or design (runs /grilling)."
+description: A relentless interview to sharpen a plan or design.
 disable-model-invocation: true
 ---
 

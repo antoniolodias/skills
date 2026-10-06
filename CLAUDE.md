@@ -1,13 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Overview
-
-This is a collection of reusable agent skills for Claude Code. Each skill lives in its own directory and is installed globally by symlinking `SKILL.md` into `~/.claude/commands/`.
-
-## Folder Structure
-
 Skills are organized into bucket folders under `skills/`:
 
 - `engineering/`: daily code work
